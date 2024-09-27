@@ -1,4 +1,4 @@
-public static class UserRoute {
+public static class UsuarioRoute {
     public static void MapearRotasDeUsuarios(this IEndpointRouteBuilder rotas) {
 
         
