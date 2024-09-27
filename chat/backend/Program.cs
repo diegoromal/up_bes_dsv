@@ -1,8 +1,8 @@
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddSingleton<UserController>();
+builder.Services.AddSingleton<UsuarioController>();
 var app = builder.Build();
 // app.MapGet("/", () => "Hello World!");
 
-app.MapUserRoutes();
+app.MapearRotasDeUsuarios();
 
 app.Run();
