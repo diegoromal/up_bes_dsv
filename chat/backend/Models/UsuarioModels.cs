@@ -16,4 +16,11 @@ public class UsuarioModel
         Id = Guid.NewGuid();
         CriadoEm = DateTime.Now;
     }
+
+    public void AtualizaUsuario(string nome, string usuario, string senha )
+    {
+        Nome = nome;
+        Usuario = usuario;
+        Senha  = senha;
+    }
 }
