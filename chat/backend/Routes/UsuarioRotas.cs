@@ -7,9 +7,9 @@ public static class UsuarioRotas
     {
         var rotasUsuario = app.MapGroup("usuario");
 
-        rotasUsuario.MapPost("", async (AddUsuarioRequest request, AppDbContext db) => 
+        rotasUsuario.MapPost("", async (AddUsuarioRequest request, AppDbContext db, CancellationToken ct) => 
         {
-            var usuarioExiste = await db.Usuarios.AnyAsync(usuario => usuario.Nome == request.Nome);
+            var usuarioExiste = await db.Usuarios.AnyAsync(usuario => usuario.Nome == request.Nome, ct);
 
             if (usuarioExiste)
                 return Results.Conflict("Usuário já existe");
@@ -17,23 +17,23 @@ public static class UsuarioRotas
             string senhaHash = BCrypt.Net.BCrypt.EnhancedHashPassword(request.Senha, 13);
 
             var novoUsuario = new UsuarioModel(request.Nome, request.Usuario, senhaHash);
-            await db.Usuarios.AddAsync(novoUsuario);
-            await db.SaveChangesAsync();
+            await db.Usuarios.AddAsync(novoUsuario, ct);
+            await db.SaveChangesAsync(ct);
 
             return Results.Created();
         });
 
-        rotasUsuario.MapGet("todos", async (AppDbContext db) =>
+        rotasUsuario.MapGet("todos", async (AppDbContext db, CancellationToken ct) =>
         {
-            var usuarios = await db.Usuarios.Select(usuario => new UsuarioSaidaDTO(usuario.Id, usuario.Nome, usuario.Usuario)).ToListAsync();
+            var usuarios = await db.Usuarios.Select(usuario => new UsuarioSaidaDTO(usuario.Id, usuario.Nome, usuario.Usuario)).ToListAsync(ct);
 
             return Results.Ok(usuarios);
 
         });
 
-        rotasUsuario.MapPut("{id:guid}", async (Guid id, AttUsuarioRequest request, AppDbContext db) =>
+        rotasUsuario.MapPut("{id:guid}", async (Guid id, AttUsuarioRequest request, AppDbContext db, CancellationToken ct) =>
         {
-            var usuario = await db.Usuarios.SingleOrDefaultAsync(usuario => usuario.Id == id);
+            var usuario = await db.Usuarios.SingleOrDefaultAsync(usuario => usuario.Id == id, ct);
 
             if (usuario == null)
                 return Results.NotFound();
@@ -45,23 +45,23 @@ public static class UsuarioRotas
 
             usuario.AtualizaUsuario(request.Nome, request.Usuario, senhaHash);
 
-            await db.SaveChangesAsync();
+            await db.SaveChangesAsync(ct);
 
             var retornoUsuario = new UsuarioSaidaDTO(usuario.Id, usuario.Nome, usuario.Usuario);
 
             return Results.Ok(retornoUsuario);
         });
 
-        rotasUsuario.MapDelete("{id:guid}", async (Guid id, AppDbContext db) =>
+        rotasUsuario.MapDelete("{id:guid}", async (Guid id, AppDbContext db, CancellationToken ct) =>
         {
-            var usuario = await db.Usuarios.SingleOrDefaultAsync(usuario => usuario.Id == id);
+            var usuario = await db.Usuarios.SingleOrDefaultAsync(usuario => usuario.Id == id, ct);
 
             if (usuario == null)
                 return Results.NotFound();
 
             db.Usuarios.Remove(usuario);
 
-            await db.SaveChangesAsync();
+            await db.SaveChangesAsync(ct);
 
             return Results.Ok();
         }); 
