@@ -25,7 +25,7 @@ public static class UsuarioRotas
 
         rotasUsuario.MapGet("todos", async (AppDbContext db) =>
         {
-            var usuarios = await db.Usuarios.ToListAsync();
+            var usuarios = await db.Usuarios.Select(usuario => new UsuarioSaidaDTO(usuario.Id, usuario.Nome, usuario.Usuario)).ToListAsync();
 
             return Results.Ok(usuarios);
 
@@ -38,13 +38,32 @@ public static class UsuarioRotas
             if (usuario == null)
                 return Results.NotFound();
 
+            if (usuario.Usuario == request.Usuario)
+                return Results.Conflict("Usuário já existe");
+
             string senhaHash = BCrypt.Net.BCrypt.EnhancedHashPassword(request.Senha, 13);
 
             usuario.AtualizaUsuario(request.Nome, request.Usuario, senhaHash);
 
             await db.SaveChangesAsync();
 
-            return Results.Ok(usuario);
+            var retornoUsuario = new UsuarioSaidaDTO(usuario.Id, usuario.Nome, usuario.Usuario);
+
+            return Results.Ok(retornoUsuario);
         });
+
+        rotasUsuario.MapDelete("{id:guid}", async (Guid id, AppDbContext db) =>
+        {
+            var usuario = await db.Usuarios.SingleOrDefaultAsync(usuario => usuario.Id == id);
+
+            if (usuario == null)
+                return Results.NotFound();
+
+            db.Usuarios.Remove(usuario);
+
+            await db.SaveChangesAsync();
+
+            return Results.Ok();
+        }); 
     }
 }
