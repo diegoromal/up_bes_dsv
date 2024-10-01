@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Models;
 
-public class AppDataContext : DbContext {
+public class AppDbContext : DbContext {
     public DbSet<UsuarioModel> Usuarios { get; set; } 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
