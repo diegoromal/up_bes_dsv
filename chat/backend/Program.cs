@@ -20,5 +20,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.AddRotasUsuarios();
+app.AddRotasConversas();
+// app.AddRotasMensagens();
 
 app.Run();

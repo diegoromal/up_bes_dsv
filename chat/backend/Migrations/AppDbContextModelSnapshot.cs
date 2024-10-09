@@ -23,17 +23,17 @@ namespace backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("IdUsuario1Id")
+                    b.Property<Guid>("Usuario1Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("IdUsuario2Id")
+                    b.Property<Guid>("Usuario2Id")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdUsuario1Id");
+                    b.HasIndex("Usuario1Id");
 
-                    b.HasIndex("IdUsuario2Id");
+                    b.HasIndex("Usuario2Id");
 
                     b.ToTable("Conversas");
                 });
@@ -47,20 +47,20 @@ namespace backend.Migrations
                     b.Property<string>("Conteudo")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("ConversaId")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("DataHora")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("IdConversaId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("IdUsuarioId")
+                    b.Property<Guid>("UsuarioId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdConversaId");
+                    b.HasIndex("ConversaId");
 
-                    b.HasIndex("IdUsuarioId");
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Mensagens");
                 });
@@ -92,32 +92,54 @@ namespace backend.Migrations
 
             modelBuilder.Entity("ConversaModel", b =>
                 {
-                    b.HasOne("backend.Models.UsuarioModel", "IdUsuario1")
-                        .WithMany()
-                        .HasForeignKey("IdUsuario1Id");
+                    b.HasOne("backend.Models.UsuarioModel", "Usuario1")
+                        .WithMany("Conversas1")
+                        .HasForeignKey("Usuario1Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("backend.Models.UsuarioModel", "IdUsuario2")
-                        .WithMany()
-                        .HasForeignKey("IdUsuario2Id");
+                    b.HasOne("backend.Models.UsuarioModel", "Usuario2")
+                        .WithMany("Conversas2")
+                        .HasForeignKey("Usuario2Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.Navigation("IdUsuario1");
+                    b.Navigation("Usuario1");
 
-                    b.Navigation("IdUsuario2");
+                    b.Navigation("Usuario2");
                 });
 
             modelBuilder.Entity("MensagemModel", b =>
                 {
-                    b.HasOne("ConversaModel", "IdConversa")
-                        .WithMany()
-                        .HasForeignKey("IdConversaId");
+                    b.HasOne("ConversaModel", "Conversa")
+                        .WithMany("Mensagens")
+                        .HasForeignKey("ConversaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("backend.Models.UsuarioModel", "IdUsuario")
-                        .WithMany()
-                        .HasForeignKey("IdUsuarioId");
+                    b.HasOne("backend.Models.UsuarioModel", "Usuario")
+                        .WithMany("Mensagens")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("IdConversa");
+                    b.Navigation("Conversa");
 
-                    b.Navigation("IdUsuario");
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("ConversaModel", b =>
+                {
+                    b.Navigation("Mensagens");
+                });
+
+            modelBuilder.Entity("backend.Models.UsuarioModel", b =>
+                {
+                    b.Navigation("Conversas1");
+
+                    b.Navigation("Conversas2");
+
+                    b.Navigation("Mensagens");
                 });
 #pragma warning restore 612, 618
         }

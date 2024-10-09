@@ -31,22 +31,24 @@ namespace backend.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    IdUsuario1Id = table.Column<Guid>(type: "TEXT", nullable: true),
-                    IdUsuario2Id = table.Column<Guid>(type: "TEXT", nullable: true)
+                    Usuario1Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Usuario2Id = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Conversas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Conversas_Usuarios_IdUsuario1Id",
-                        column: x => x.IdUsuario1Id,
+                        name: "FK_Conversas_Usuarios_Usuario1Id",
+                        column: x => x.Usuario1Id,
                         principalTable: "Usuarios",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Conversas_Usuarios_IdUsuario2Id",
-                        column: x => x.IdUsuario2Id,
+                        name: "FK_Conversas_Usuarios_Usuario2Id",
+                        column: x => x.Usuario2Id,
                         principalTable: "Usuarios",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -54,8 +56,8 @@ namespace backend.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    IdConversaId = table.Column<Guid>(type: "TEXT", nullable: true),
-                    IdUsuarioId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    ConversaId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    UsuarioId = table.Column<Guid>(type: "TEXT", nullable: false),
                     Conteudo = table.Column<string>(type: "TEXT", nullable: true),
                     DataHora = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
@@ -63,36 +65,38 @@ namespace backend.Migrations
                 {
                     table.PrimaryKey("PK_Mensagens", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Mensagens_Conversas_IdConversaId",
-                        column: x => x.IdConversaId,
+                        name: "FK_Mensagens_Conversas_ConversaId",
+                        column: x => x.ConversaId,
                         principalTable: "Conversas",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Mensagens_Usuarios_IdUsuarioId",
-                        column: x => x.IdUsuarioId,
+                        name: "FK_Mensagens_Usuarios_UsuarioId",
+                        column: x => x.UsuarioId,
                         principalTable: "Usuarios",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Conversas_IdUsuario1Id",
+                name: "IX_Conversas_Usuario1Id",
                 table: "Conversas",
-                column: "IdUsuario1Id");
+                column: "Usuario1Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Conversas_IdUsuario2Id",
+                name: "IX_Conversas_Usuario2Id",
                 table: "Conversas",
-                column: "IdUsuario2Id");
+                column: "Usuario2Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Mensagens_IdConversaId",
+                name: "IX_Mensagens_ConversaId",
                 table: "Mensagens",
-                column: "IdConversaId");
+                column: "ConversaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Mensagens_IdUsuarioId",
+                name: "IX_Mensagens_UsuarioId",
                 table: "Mensagens",
-                column: "IdUsuarioId");
+                column: "UsuarioId");
         }
 
         /// <inheritdoc />
