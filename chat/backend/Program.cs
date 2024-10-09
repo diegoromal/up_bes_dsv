@@ -21,6 +21,6 @@ app.UseHttpsRedirection();
 
 app.AddRotasUsuarios();
 app.AddRotasConversas();
-// app.AddRotasMensagens();
+app.AddRotasMensagens();
 
 app.Run();
