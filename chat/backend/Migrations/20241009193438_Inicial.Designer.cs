@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Models;
 
@@ -10,9 +11,11 @@ using backend.Models;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241009193438_Inicial")]
+    partial class Inicial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
@@ -45,7 +48,6 @@ namespace backend.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Conteudo")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("ConversaId")
@@ -96,13 +98,13 @@ namespace backend.Migrations
                     b.HasOne("backend.Models.UsuarioModel", "Usuario1")
                         .WithMany("Conversas1")
                         .HasForeignKey("Usuario1Id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("backend.Models.UsuarioModel", "Usuario2")
                         .WithMany("Conversas2")
                         .HasForeignKey("Usuario2Id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Usuario1");

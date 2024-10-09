@@ -9,7 +9,7 @@ public static class UsuarioRotas
 
         rotasUsuario.MapPost("", async (AddUsuarioRequest request, AppDbContext db, CancellationToken ct) => 
         {
-            var usuarioExiste = await db.Usuarios.AnyAsync(usuario => usuario.Nome == request.Nome, ct);
+            var usuarioExiste = await db.Usuarios.AnyAsync(usuario => usuario.Usuario == request.Usuario, ct);
 
             if (usuarioExiste)
                 return Results.Conflict("Usuário já existe");
@@ -20,7 +20,9 @@ public static class UsuarioRotas
             await db.Usuarios.AddAsync(novoUsuario, ct);
             await db.SaveChangesAsync(ct);
 
-            return Results.Created();
+            var retornoUsuario = new UsuarioSaidaDTO(novoUsuario.Id, novoUsuario.Nome, novoUsuario.Usuario);
+
+            return Results.Created($"/usuario/{novoUsuario.Id}", retornoUsuario);
         });
 
         rotasUsuario.MapGet("todos", async (AppDbContext db, CancellationToken ct) =>
@@ -28,6 +30,19 @@ public static class UsuarioRotas
             var usuarios = await db.Usuarios.Select(usuario => new UsuarioSaidaDTO(usuario.Id, usuario.Nome, usuario.Usuario)).ToListAsync(ct);
 
             return Results.Ok(usuarios);
+
+        });
+
+        rotasUsuario.MapGet("{id:guid:}", async (Guid id, AppDbContext db, CancellationToken ct) =>
+        {
+            var usuario = await db.Usuarios.SingleOrDefaultAsync(usuario => usuario.Id == id, ct);
+
+            if(usuario == null)
+                return Results.NotFound();
+
+            var retornoUsuario = new UsuarioSaidaDTO(usuario.Id, usuario.Nome, usuario.Usuario);
+
+            return Results.Ok(retornoUsuario);
 
         });
 
@@ -58,7 +73,7 @@ public static class UsuarioRotas
 
             if (usuario == null)
                 return Results.NotFound();
-
+                
             db.Usuarios.Remove(usuario);
 
             await db.SaveChangesAsync(ct);
