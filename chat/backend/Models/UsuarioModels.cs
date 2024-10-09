@@ -7,7 +7,6 @@ public class UsuarioModel
     public string Usuario { get; private set; }
     public string? Senha { get; private set; }
     public DateTime CriadoEm { get; init; }
-
     public UsuarioModel(string nome, string usuario, string senha )
     {
         Nome = nome;
