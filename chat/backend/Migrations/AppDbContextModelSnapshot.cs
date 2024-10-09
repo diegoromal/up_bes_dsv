@@ -23,13 +23,17 @@ namespace backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("IdUsuario1")
+                    b.Property<Guid?>("IdUsuario1Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("IdUsuario2")
+                    b.Property<Guid?>("IdUsuario2Id")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdUsuario1Id");
+
+                    b.HasIndex("IdUsuario2Id");
 
                     b.ToTable("Conversas");
                 });
@@ -46,13 +50,17 @@ namespace backend.Migrations
                     b.Property<DateTime>("DataHora")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("IdConversa")
+                    b.Property<Guid?>("IdConversaId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("IdUsuario")
+                    b.Property<Guid?>("IdUsuarioId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdConversaId");
+
+                    b.HasIndex("IdUsuarioId");
 
                     b.ToTable("Mensagens");
                 });
@@ -80,6 +88,36 @@ namespace backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("ConversaModel", b =>
+                {
+                    b.HasOne("backend.Models.UsuarioModel", "IdUsuario1")
+                        .WithMany()
+                        .HasForeignKey("IdUsuario1Id");
+
+                    b.HasOne("backend.Models.UsuarioModel", "IdUsuario2")
+                        .WithMany()
+                        .HasForeignKey("IdUsuario2Id");
+
+                    b.Navigation("IdUsuario1");
+
+                    b.Navigation("IdUsuario2");
+                });
+
+            modelBuilder.Entity("MensagemModel", b =>
+                {
+                    b.HasOne("ConversaModel", "IdConversa")
+                        .WithMany()
+                        .HasForeignKey("IdConversaId");
+
+                    b.HasOne("backend.Models.UsuarioModel", "IdUsuario")
+                        .WithMany()
+                        .HasForeignKey("IdUsuarioId");
+
+                    b.Navigation("IdConversa");
+
+                    b.Navigation("IdUsuario");
                 });
 #pragma warning restore 612, 618
         }
