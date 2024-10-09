@@ -73,7 +73,7 @@ public static class UsuarioRotas
 
             if (usuario == null)
                 return Results.NotFound();
-
+                
             db.Usuarios.Remove(usuario);
 
             await db.SaveChangesAsync(ct);

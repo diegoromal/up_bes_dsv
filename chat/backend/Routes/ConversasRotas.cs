@@ -22,7 +22,7 @@ public static class ConversasRotas
 
             var retornoConversa = new ConversaSaidaDTO(novaConversa.Id, novaConversa.Usuario1Id, novaConversa.Usuario2Id);
             
-            return Results.Created($"/conversas/{novaConversa.Id}", retornoConversa);
+            return Results.Created("", retornoConversa);
 
         });
 

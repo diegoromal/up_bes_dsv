@@ -14,13 +14,25 @@ public class AppDbContext : DbContext {
             .HasOne(c => c.Usuario1)
             .WithMany(u => u.Conversas1)
             .HasForeignKey(c => c.Usuario1Id)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<ConversaModel>()
             .HasOne(c => c.Usuario2)
             .WithMany(u => u.Conversas2)
             .HasForeignKey(c => c.Usuario2Id)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<MensagemModel>()
+            .HasOne(m => m.Conversa)
+            .WithMany(c => c.Mensagens)
+            .HasForeignKey(m => m.ConversaId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<MensagemModel>()
+            .HasOne(m => m.Usuario)
+            .WithMany(u => u.Mensagens)
+            .HasForeignKey(m => m.UsuarioId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         base.OnModelCreating(modelBuilder);
     }

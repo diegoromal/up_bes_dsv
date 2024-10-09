@@ -45,6 +45,7 @@ namespace backend.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Conteudo")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("ConversaId")
@@ -95,13 +96,13 @@ namespace backend.Migrations
                     b.HasOne("backend.Models.UsuarioModel", "Usuario1")
                         .WithMany("Conversas1")
                         .HasForeignKey("Usuario1Id")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("backend.Models.UsuarioModel", "Usuario2")
                         .WithMany("Conversas2")
                         .HasForeignKey("Usuario2Id")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Usuario1");
