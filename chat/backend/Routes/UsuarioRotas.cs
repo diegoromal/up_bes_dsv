@@ -53,7 +53,9 @@ public static class UsuarioRotas
             if (usuario == null)
                 return Results.NotFound();
 
-            if (usuario.Usuario == request.Usuario)
+            var usuarioExiste = await db.Usuarios.AnyAsync(usuario => usuario.Usuario == request.Usuario && usuario.Id != id, ct);
+
+            if (usuarioExiste)
                 return Results.Conflict("Usuário já existe");
 
             string senhaHash = BCrypt.Net.BCrypt.EnhancedHashPassword(request.Senha, 13);

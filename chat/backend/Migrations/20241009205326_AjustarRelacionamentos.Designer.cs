@@ -11,8 +11,8 @@ using backend.Models;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241009193438_Inicial")]
-    partial class Inicial
+    [Migration("20241009205326_AjustarRelacionamentos")]
+    partial class AjustarRelacionamentos
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,6 +48,7 @@ namespace backend.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Conteudo")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("ConversaId")
@@ -98,13 +99,13 @@ namespace backend.Migrations
                     b.HasOne("backend.Models.UsuarioModel", "Usuario1")
                         .WithMany("Conversas1")
                         .HasForeignKey("Usuario1Id")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("backend.Models.UsuarioModel", "Usuario2")
                         .WithMany("Conversas2")
                         .HasForeignKey("Usuario2Id")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Usuario1");
