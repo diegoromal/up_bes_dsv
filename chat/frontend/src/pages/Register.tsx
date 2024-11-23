@@ -74,6 +74,7 @@ export default function Register() {
             name="nome"
             onChange={handleChange}
             required
+            autoComplete="new-name"
           />
           <input
             type="text"
@@ -81,6 +82,7 @@ export default function Register() {
             name="username"
             onChange={handleChange}
             required
+            autoComplete="new-username"
           />
           <input
             type="password"
@@ -88,6 +90,7 @@ export default function Register() {
             name="password"
             onChange={handleChange}
             required
+            autoComplete="new-password"
           />
           <button type="submit">Registrar</button>
           <span>

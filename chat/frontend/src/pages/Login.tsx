@@ -60,7 +60,7 @@ export default function Login() {
           // Salva os dados do usuário no localStorage
           localStorage.setItem(
             "usuario",
-            JSON.stringify(data.usuario)
+            data.usuario
           );
           localStorage.setItem("estaAutenticado", "true");
 
@@ -138,11 +138,11 @@ const FormContainer = styled.div`
     }
 
     input {
-      background-color: transparent;
+      background-color: #fff;
       padding: 1rem;
       border: 0.1rem solid #4e0eff;
       border-radius: 0.4rem;
-      color: white;
+      color: #000;
       width: 100%;
       max-width: 300px; /* Garante largura uniforme */
       font-size: 1rem;

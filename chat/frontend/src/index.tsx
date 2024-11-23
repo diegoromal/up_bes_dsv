@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client"; // Importa createRoot
+import { BrowserRouter as Router } from "react-router-dom"; // Importa o Router
 import App from "./App";
 import "./index.css";
 
@@ -10,7 +11,9 @@ if (container) {
   const root = ReactDOM.createRoot(container); // Substitui ReactDOM.render
   root.render(
     <React.StrictMode>
-      <App />
+      <Router>
+        <App />
+      </Router>
     </React.StrictMode>
   );
 }
