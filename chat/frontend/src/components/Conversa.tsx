@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Mensagem } from "../components/types";
+import { Mensagem, toastOptions } from "../utils/types";
 
 export default function Conversa({
   conversaId,
@@ -34,7 +34,7 @@ export default function Conversa({
       setMensagens(mensagensOrdenadas);
       scrollToBottom(); // Rola para o final ao carregar as mensagens
     } catch (error) {
-      toast.error("Erro ao buscar mensagens.");
+      toast.error("Erro ao buscar mensagens.", toastOptions);
     }
   };
 
@@ -52,7 +52,7 @@ export default function Conversa({
   // Função para enviar nova mensagem
   const handleEnviarMensagem = async () => {
     if (!novaMensagem.trim()) {
-      toast.warning("A mensagem não pode estar vazia.");
+      toast.warning("A mensagem não pode estar vazia.", toastOptions);
       return;
     }
 
@@ -70,7 +70,7 @@ export default function Conversa({
       setNovaMensagem(""); // Limpa o campo de entrada
       scrollToBottom(); // Rola para o final ao enviar uma mensagem
     } catch (error) {
-      toast.error("Erro ao enviar mensagem.");
+      toast.error("Erro ao enviar mensagem.", toastOptions);
     }
   };
 

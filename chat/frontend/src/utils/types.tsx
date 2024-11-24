@@ -1,4 +1,5 @@
 import type { ToastOptions } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export interface Usuario {
     id: string;

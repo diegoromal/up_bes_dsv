@@ -2,21 +2,12 @@ import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { useNavigate, Link } from "react-router-dom";
-import { ToastContainer, toast, type ToastOptions } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+import { toastOptions } from "../utils/types";
 
 export default function Register() {
   const navigate = useNavigate();
   const [values, setValues] = useState({ nome: "", username: "", password: "" });
-
-  // Configuração das notificações
-  const toastOptions: ToastOptions = {
-    position: "bottom-right",
-    autoClose: 8000,
-    pauseOnHover: true,
-    draggable: true,
-    theme: "dark",
-  };
 
   // Atualiza os campos do formulário
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

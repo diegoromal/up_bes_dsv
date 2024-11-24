@@ -1,23 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { toast, type ToastOptions } from "react-toastify";
-import Sidebar from "./Sidebar"; // Importa o componente que combina ListaUsuarios e ListaChats
-import type { Usuario } from "../components/types";
-import { useNavigate } from "react-router";
+import { toastOptions, type Usuario } from "../utils/types";
 import Conversa from "./Conversa";
+import { toast } from "react-toastify";
+import Sidebar from "./Sidebar";
 
 export default function ChatMain() {
   const [chatSelecionado, setChatSelecionado] = useState<string | null>(null);
   const [usuario, setUsuario] = useState<Usuario>();
-
-  const toastOptions: ToastOptions = {
-    position: "top-right",
-    autoClose: 8000,
-    pauseOnHover: true,
-    draggable: true,
-    theme: "dark",
-  };
 
   // Busca o usuário atual do localStorage
   useEffect(() => {

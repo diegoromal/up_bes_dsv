@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { toastOptions, type UsuarioEdit } from "../components/types";
+import { toastOptions, type UsuarioEdit } from "../utils/types";
 
 export default function UserActions({ usuarioId }: { usuarioId: string }) {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);

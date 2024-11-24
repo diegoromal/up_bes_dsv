@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Usuario, Chat } from "../components/types";
+import { Usuario, Chat, toastOptions } from "../utils/types";
 
 export default function ListaUsuarios({
   usuarioId,
@@ -28,7 +28,7 @@ export default function ListaUsuarios({
         setUsuarios(usuariosFiltrados);
         setUsuariosFiltrados(usuariosFiltrados);
       } catch (error) {
-        toast.error("Erro ao buscar usuários.");
+        toast.error("Erro ao buscar usuários.", toastOptions);
       }
     };
 
@@ -54,7 +54,7 @@ export default function ListaUsuarios({
       });
 
       const novaConversa = response.data;
-      toast.success(`Conversa iniciada com ${usuario.nome}!`);
+      toast.success(`Conversa iniciada com ${usuario.nome}!`, toastOptions);
 
       onNovaConversa(novaConversa); // Atualiza a lista de conversas
       onSelectChat(novaConversa.id); // Redireciona para o chat recém-criado
@@ -62,10 +62,10 @@ export default function ListaUsuarios({
       if (error.response && error.response.status === 409) {
         const conversaExistente = error.response.data;
         console.log(conversaExistente);
-        toast.info(`Conversa com ${usuario.nome} já existe.`);
+        toast.info(`Conversa com ${usuario.nome} já existe.`, toastOptions);
         onSelectChat(conversaExistente.id); // Redireciona para a conversa existente
       } else {
-        toast.error("Erro ao iniciar conversa.");
+        toast.error("Erro ao iniciar conversa.", toastOptions);
       }
     }
   };

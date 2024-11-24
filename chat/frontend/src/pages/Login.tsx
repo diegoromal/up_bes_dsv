@@ -2,21 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { useNavigate, Link } from "react-router-dom";
-import { ToastContainer, toast, type ToastOptions } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toastOptions } from "../utils/types";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Login() {
   const navigate = useNavigate();
   const [values, setValues] = useState({ username: "", password: "" });
-
-  // Configuração das notificações
-  const toastOptions: ToastOptions = {
-    position: "bottom-right",
-    autoClose: 8000,
-    pauseOnHover: true,
-    draggable: true,
-    theme: "dark",
-  };
 
     // Verifica se o usuário já está autenticado
     useEffect(() => {

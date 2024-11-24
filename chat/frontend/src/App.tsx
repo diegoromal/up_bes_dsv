@@ -3,10 +3,10 @@ import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import axios from "axios";
 import Login from "./pages/Login";
-import Logout from "./pages/Logout";
+import Logout from "./components/Logout";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Register from "./pages/Register";
-import ChatMain from "./pages/ChatMain";
+import Register from "./components/Register";
+import ChatMain from "./components/ChatMain";
 
 export default function App() {
   const [novaMensagens, setNovaMensagens] = useState<number>(0);

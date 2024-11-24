@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Chat, Mensagem, Usuario } from "../components/types";
+import { Chat, Mensagem, toastOptions, Usuario } from "../utils/types";
 
 export default function ListaChats({
   usuarioId,
@@ -60,7 +60,7 @@ export default function ListaChats({
 
             return { ...chat, ultimaMensagem, naoLidas, nomeUsuario };
           } catch (error) {
-            toast.error(`Erro ao buscar informações para o chat ${chat.id}`);
+            toast.error(`Erro ao buscar informações para o chat ${chat.id}`, toastOptions);
             return { ...chat, ultimaMensagem: undefined, naoLidas: 0, nomeUsuario: "Usuário Desconhecido" };
           }
         })
@@ -74,7 +74,7 @@ export default function ListaChats({
 
       setChats(chatsComDetalhes);
     } catch (error) {
-      toast.error("Erro ao buscar chats.");
+      toast.error("Erro ao buscar chats.", toastOptions);
     }
   };
 
