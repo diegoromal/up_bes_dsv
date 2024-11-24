@@ -14,8 +14,9 @@ export default function Conversa({
   const [mensagens, setMensagens] = useState<Mensagem[]>([]);
   const [novaMensagem, setNovaMensagem] = useState<string>("");
 
-  // Referência para o contêiner que rola
-  const mensagensEndRef = useRef<HTMLDivElement | null>(null);
+  // Referências
+  const mensagensEndRef = useRef<HTMLDivElement | null>(null); // Para rolar até o final
+  const inputRef = useRef<HTMLInputElement | null>(null); // Para focar no campo de entrada
 
   // Função para rolar até o final instantaneamente
   const scrollToBottom = () => {
@@ -41,6 +42,9 @@ export default function Conversa({
   // Carrega as mensagens ao montar o componente
   useEffect(() => {
     fetchMensagens();
+    if (inputRef.current) {
+      inputRef.current.focus(); // Foca na caixa de texto ao abrir a conversa
+    }
   }, [conversaId]);
 
   // Atualiza as mensagens periodicamente
@@ -69,6 +73,7 @@ export default function Conversa({
       setMensagens((prev) => [...prev, response.data]);
       setNovaMensagem(""); // Limpa o campo de entrada
       scrollToBottom(); // Rola para o final ao enviar uma mensagem
+      inputRef.current?.focus(); // Mantém o foco na caixa de texto após enviar
     } catch (error) {
       toast.error("Erro ao enviar mensagem.", toastOptions);
     }
@@ -106,6 +111,7 @@ export default function Conversa({
       </MensagensContainer>
       <InputContainer>
         <MensagemInput
+          ref={inputRef} // Adiciona a referência para focar automaticamente
           type="text"
           placeholder="Digite sua mensagem..."
           value={novaMensagem}
@@ -127,7 +133,7 @@ const Container = styled.div`
 
 const MensagensContainer = styled.div`
   flex: 1;
-  overflow-y: auto; /* Adiciona barra de rolagem */
+  overflow-y: auto;
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -140,13 +146,12 @@ const MensagemCard = styled.div<{ isEnviada: boolean }>`
   padding: 0.5rem;
   margin: 0.5rem 0;
   border-radius: 10px;
-  max-width: 60%; /* Limita a largura do card */
-  word-wrap: break-word; /* Quebra as palavras longas */
-  overflow-wrap: break-word; /* Garante compatibilidade com navegadores */
-  white-space: pre-wrap; /* Respeita as quebras de linha */
-  line-height: 1.5; /* Melhora a legibilidade */
+  max-width: 60%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  line-height: 1.5;
 `;
-
 
 const Conteudo = styled.p`
   margin: 0;

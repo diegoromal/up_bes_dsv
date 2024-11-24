@@ -5,6 +5,7 @@ import { toastOptions, type Usuario } from "../utils/types";
 import Conversa from "./Conversa";
 import { toast } from "react-toastify";
 import Sidebar from "./Sidebar";
+import NewMessagesCounter from "./NovasMensagens";
 
 export default function ChatMain() {
   const [chatSelecionado, setChatSelecionado] = useState<string | null>(null);
@@ -45,6 +46,9 @@ export default function ChatMain() {
     <ChatContainer>
       <Sidebar usuarioId={usuario.id} onSelectChat={setChatSelecionado} />
       <MainChatArea>
+        <NovaMensagensContainer>
+          <NewMessagesCounter usuarioId={usuario.id} />
+        </NovaMensagensContainer>
         {chatSelecionado ? (
           <Conversa conversaId={chatSelecionado} usuarioId={usuario.id} />
         ) : (
@@ -68,6 +72,13 @@ const MainChatArea = styled.div`
   background-color: #131324;
   display: flex;
   flex-direction: column;
+`;
+
+const NovaMensagensContainer = styled.div`
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: white;
+  font-weight: bold;
 `;
 
 const MensagemPlaceholder = styled.div`

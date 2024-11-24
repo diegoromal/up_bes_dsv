@@ -28,7 +28,7 @@ export interface UsuarioEdit {
   }
   
   export const toastOptions: ToastOptions = {
-    position: "bottom-right",
+    position: "top-right",
     autoClose: 8000,
     pauseOnHover: true,
     draggable: true,
